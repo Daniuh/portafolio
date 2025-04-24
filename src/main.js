@@ -1,13 +1,7 @@
-import './style.css'
-import { setupCounter } from './counter.js'
+import './styles/style.css'
 
 document.querySelector('#app').innerHTML = `
   <div>
-    <h1>Bienvenido a mi portafolio</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
+    <h1 class="text-4xl text-blue-600 font-bold text-center mt-10">Bienvenido a mi portafolio</h1>
   </div>
 `
-
-setupCounter(document.querySelector('#counter'))
