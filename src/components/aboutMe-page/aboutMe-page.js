@@ -1,6 +1,4 @@
 import '../../styles/style.css';
-import Splide from '@splidejs/splide';
-import '@splidejs/splide/dist/css/splide.min.css';
 
 export async function loadAboutMe() {
   const response = await fetch('/aboutMe-page/aboutMe-page.html');

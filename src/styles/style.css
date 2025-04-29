@@ -48,50 +48,50 @@
   }
   
   .carousel__face img {
-    width: 96px;
-    height: 96px;
-    image-rendering: auto;
+    width: 90px;
+    height: 90px;
+    image-rendering: crisp-edges;
     transform: translateZ(1px);
   }
   
   .carousel__face:nth-child(1) {
-    transform: rotateY(0deg) translateZ(200px);
+    transform: rotateY(0deg) translateZ(300px);
   }
   .carousel__face:nth-child(2) {
-    transform: rotateY(27.69deg) translateZ(200px);
+    transform: rotateY(27.69deg) translateZ(300px);
   }
   .carousel__face:nth-child(3) {
-    transform: rotateY(55.38deg) translateZ(200px);
+    transform: rotateY(55.38deg) translateZ(300px);
   }
   .carousel__face:nth-child(4) {
-    transform: rotateY(83.07deg) translateZ(200px);
+    transform: rotateY(83.07deg) translateZ(300px);
   }
   .carousel__face:nth-child(5) {
-    transform: rotateY(110.76deg) translateZ(200px);
+    transform: rotateY(110.76deg) translateZ(300px);
   }
   .carousel__face:nth-child(6) {
-    transform: rotateY(138.45deg) translateZ(200px);
+    transform: rotateY(138.45deg) translateZ(300px);
   }
   .carousel__face:nth-child(7) {
-    transform: rotateY(166.14deg) translateZ(200px);
+    transform: rotateY(166.14deg) translateZ(300px);
   }
   .carousel__face:nth-child(8) {
-    transform: rotateY(193.83deg) translateZ(200px);
+    transform: rotateY(193.83deg) translateZ(300px);
   }
   .carousel__face:nth-child(9) {
-    transform: rotateY(221.52deg) translateZ(200px);
+    transform: rotateY(221.52deg) translateZ(300px);
   }
   .carousel__face:nth-child(10) {
-    transform: rotateY(249.21deg) translateZ(200px);
+    transform: rotateY(249.21deg) translateZ(300px);
   }
   .carousel__face:nth-child(11) {
-    transform: rotateY(276.9deg) translateZ(200px);
+    transform: rotateY(276.9deg) translateZ(300px);
   }
   .carousel__face:nth-child(12) {
-    transform: rotateY(304.59deg) translateZ(200px);
+    transform: rotateY(304.59deg) translateZ(300px);
   }
   .carousel__face:nth-child(13) {
-    transform: rotateY(332.28deg) translateZ(200px);
+    transform: rotateY(332.28deg) translateZ(300px);
   }
   
   @keyframes rotate {
