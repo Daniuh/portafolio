@@ -21,27 +21,84 @@
     scroll-behavior: smooth;
   }
 
-  .splide {
-    display: flex;
-    justify-content: center; 
-    align-items: center;
+  .carousel-3d {
+    perspective: 1000px;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+  }
+  
+  .carousel {
     width: 100%;
-    background-color: #99a1af;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+    animation: rotate 20s infinite linear;
   }
   
-  .splide__track {
-    display: flex;
-    justify-content: center; 
-  }
-  
-  .splide__list {
+  .carousel__face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
     display: flex;
     justify-content: center;
+    align-items: center;
   }
-
-  .splide__slide img {
-    display: block;
-    margin: 0 auto;
-    max-width: 100%;
-    height: auto;
+  
+  .carousel__face img {
+    width: 96px;
+    height: 96px;
+    image-rendering: auto;
+    transform: translateZ(1px);
+  }
+  
+  .carousel__face:nth-child(1) {
+    transform: rotateY(0deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(2) {
+    transform: rotateY(27.69deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(3) {
+    transform: rotateY(55.38deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(4) {
+    transform: rotateY(83.07deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(5) {
+    transform: rotateY(110.76deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(6) {
+    transform: rotateY(138.45deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(7) {
+    transform: rotateY(166.14deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(8) {
+    transform: rotateY(193.83deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(9) {
+    transform: rotateY(221.52deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(10) {
+    transform: rotateY(249.21deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(11) {
+    transform: rotateY(276.9deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(12) {
+    transform: rotateY(304.59deg) translateZ(200px);
+  }
+  .carousel__face:nth-child(13) {
+    transform: rotateY(332.28deg) translateZ(200px);
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
   }
