@@ -5,20 +5,16 @@ document.querySelector('#app').innerHTML = `
 <div id="navigator"></div>
 <main>
   <section id="home" class="w-full min-h-screen">
-    <div id="home"></div>
+    <div id="homePage"></div>
   </section>
 
   <section id="about" class="w-full min-h-screen">
-    <!-- contenido de Sobre mí -->
+    <div id="aboutPage" class="w-full min-h-screen"></div>
   </section>
 
-  <section id="projects" class="w-full min-h-screen">
-    <!-- contenido de Proyectos -->
-  </section>
+  <section id="projects" class="w-full min-h-screen"></section>
 
-  <section id="contact" class="w-full min-h-screen">
-    <!-- contenido de Contacto -->
-  </section>
+  <section id="contact" class="w-full min-h-screen"></section>
 </main>
 `;
 
