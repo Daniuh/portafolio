@@ -34,7 +34,7 @@
     position: relative;
     transform-style: preserve-3d;
     will-change: transform;
-    animation: rotate 20s infinite linear;
+    animation: rotate 30s infinite linear;
   }
   
   .carousel__face {
