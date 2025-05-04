@@ -93,6 +93,10 @@
   .carousel__face:nth-child(13) {
     transform: rotateY(332.28deg) translateZ(300px);
   }
+
+  .carousel-3d:hover .carousel {
+    animation-play-state: paused;
+  }
   
   @keyframes rotate {
     from {
