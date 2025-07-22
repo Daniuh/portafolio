@@ -5,4 +5,3 @@ export async function loadAboutMe() {
   const html = await response.text();
   document.getElementById('aboutPage').innerHTML = html;
 }
-

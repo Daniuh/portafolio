@@ -106,3 +106,38 @@
       transform: rotateY(360deg);
     }
   }
+
+  .scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Carrusel habilidades */
+
+  .carousel-wrapper {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .carousel-track {
+    display: flex;
+    width: max-content;
+    animation: scroll-left 30s linear infinite;
+  }
+
+  .carousel-item {
+    flex: 0 0 auto;
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: var(--color-yellow-100);
+    border-end-start-radius: var(--radius-2xl);
+    font-weight: bold;
+  }
+
+  @keyframes scroll-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
