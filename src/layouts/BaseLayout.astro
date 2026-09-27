@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+import { site, seo, openGraph, person } from '../data/site.js';
+
+const { title = seo.title, description = seo.description } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: person.name,
+  jobTitle: person.jobTitle,
+  url: `${site.url}/`,
+  image: site.image,
+  sameAs: person.profiles,
+};
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href={site.favicon} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={seo.keywords} />
+    <meta name="author" content={site.author} />
+    <link rel="canonical" href={canonical} />
+    <title>{title}</title>
+
+    <meta property="og:title" content={openGraph.title} />
+    <meta property="og:description" content={openGraph.description} />
+    <meta property="og:image" content={site.image} />
+    <meta property="og:url" content={`${site.url}/`} />
+    <meta property="og:type" content={openGraph.type} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

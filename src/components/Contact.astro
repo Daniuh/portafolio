@@ -1,0 +1,225 @@
+---
+import { Icon } from 'astro-icon/components';
+import { contact } from '../data/contact.js';
+import { footer } from '../data/site.js';
+
+const copyright = `© ${footer.year} · ${footer.text}`;
+---
+
+<div
+  class="relative flex min-h-screen w-full flex-col overflow-hidden border-t-2 border-accent-soft bg-surface pl-16 pr-6 text-ink"
+>
+  <!-- Halo cálido de fondo, igual que en el resto del sitio -->
+  <div
+    class="pointer-events-none absolute right-0 top-1/3 h-halo w-halo translate-x-1/3 -translate-y-1/2 rounded-full bg-accent/5 blur-halo"
+  >
+  </div>
+
+  <div class="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center py-16">
+    <div class="grid gap-14 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:gap-16">
+      <!-- Presentación -->
+      <div class="text-left">
+        <div
+          class="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-xs font-medium text-accent"
+        >
+          <span class="relative flex h-2 w-2">
+            <span
+              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75"
+            ></span>
+            <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+          </span>
+          {contact.status}
+        </div>
+
+        <h2 class="mb-5 text-4xl font-bold text-accent-soft sm:text-5xl">{contact.heading}</h2>
+        <p class="mb-8 max-w-md text-lg leading-relaxed text-ink-muted">{contact.intro}</p>
+
+        <button
+          type="button"
+          id="copy-email"
+          data-email={contact.email}
+          class="magnetic group mb-4 flex w-full max-w-md items-center gap-4 rounded-2xl border border-ink/10 bg-ink/5 p-4 text-left transition-colors duration-300 hover:border-accent/40 hover:bg-ink/10 sm:p-5"
+        >
+          <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-ink/5">
+            <Icon name="simple-icons:gmail" class="h-5 w-5" style="color:#ea4335" />
+          </span>
+          <span class="min-w-0 flex-1">
+            <span class="block text-xs font-medium uppercase tracking-eyebrow text-ink-subtle">
+              Correo &middot; clic para copiar
+            </span>
+            <span class="block truncate text-sm font-medium text-ink sm:text-base">
+              {contact.email}
+            </span>
+          </span>
+          <span class="grid h-8 w-8 shrink-0 place-items-center">
+            <span id="copy-icon-idle">
+              <Icon
+                name="lucide:copy"
+                class="h-4 w-4 text-ink-subtle transition-colors duration-300 group-hover:text-ink"
+              />
+            </span>
+            <span id="copy-icon-done" hidden>
+              <Icon name="lucide:check" class="h-4 w-4 text-accent" />
+            </span>
+          </span>
+        </button>
+        <p id="copy-feedback" class="sr-only" role="status" aria-live="polite"></p>
+
+        <div class="mb-8 flex flex-wrap items-center gap-x-2 gap-y-1 pl-1 text-sm text-ink-muted">
+          <Icon name="lucide:map-pin" class="h-4 w-4 shrink-0 text-ink-subtle" />
+          <span>{contact.location.label}</span>
+          <span class="text-ink-subtle">·</span>
+          <Icon name="lucide:clock" class="h-4 w-4 shrink-0 text-ink-subtle" />
+          <span
+            id="local-clock"
+            data-timezone={contact.location.timezone}
+            class="font-mono tabular-nums"
+          >
+            --:--
+          </span>
+          <span class="text-ink-subtle">hora local</span>
+        </div>
+
+        <a
+          href={contact.cv.href}
+          class="cv-button magnetic inline-flex w-fit items-center gap-2 rounded-full bg-accent-soft px-6 py-3 font-semibold text-surface shadow-lg transition-shadow duration-300 hover:drop-shadow-glow-soft"
+          download
+        >
+          <Icon name="lucide:file-down" class="h-4 w-4" />
+          {contact.cv.label}
+        </a>
+      </div>
+
+      <!-- Redes -->
+      <div>
+        <h3
+          class="mb-4 text-xs font-semibold uppercase tracking-eyebrow text-ink-subtle lg:text-right"
+        >
+          {contact.socialsHeading}
+        </h3>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-1">
+          {
+            contact.socials.map((social) => (
+              <a
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="magnetic group relative flex items-center gap-4 overflow-hidden rounded-2xl border border-ink/10 bg-ink/5 p-5 backdrop-blur-sm transition-colors duration-300 hover:border-[color:var(--brand)] hover:bg-ink/10"
+                style={`--brand: ${social.color}`}
+              >
+                <Icon
+                  name={social.icon}
+                  class="h-7 w-7 shrink-0 transition-transform duration-300 group-hover:scale-110"
+                  style={`color:${social.color}`}
+                />
+                <span class="flex-1 text-sm font-semibold text-ink">{social.name}</span>
+                <Icon
+                  name="lucide:arrow-up-right"
+                  class="h-4 w-4 shrink-0 -translate-x-1 text-ink-subtle opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"
+                  style="color:var(--brand)"
+                />
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="relative z-10 mt-2 w-full border-t border-ink/10 py-1 text-center leading-none">
+    <p class="text-xs text-accent">{copyright}</p>
+  </footer>
+</div>
+
+<script>
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Botones/tarjetas magnéticos: se acercan un poco al cursor cuando está cerca
+  // y sueltan de vuelta a su sitio antes de llegar al borde de su radio, con un
+  // desplazamiento máximo fijo para que nunca se vayan muy lejos ni queden
+  // desordenados.
+  if (canHover && !reduceMotion) {
+    const pull = 0.3;
+    const field = 70; // px de radio de influencia además del propio tamaño
+    const maxOffset = 14; // px, tope de desplazamiento
+    const clamp = (value, limit) => Math.max(-limit, Math.min(limit, value));
+
+    document.querySelectorAll('.magnetic').forEach((el) => {
+      const reset = () => {
+        el.style.transform = '';
+      };
+
+      const onMove = (event) => {
+        const rect = el.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const dx = event.clientX - cx;
+        const dy = event.clientY - cy;
+        const distance = Math.hypot(dx, dy);
+        const reach = Math.max(rect.width, rect.height) / 2 + field;
+
+        if (distance > reach) {
+          reset();
+          return;
+        }
+
+        // Se acerca proporcional a la distancia, y se desvanece a 0 justo
+        // antes del borde del radio, en vez de saltar de golpe a su sitio.
+        const falloff = 1 - distance / reach;
+        const offsetX = clamp(dx * pull, maxOffset) * falloff;
+        const offsetY = clamp(dy * pull, maxOffset) * falloff;
+        el.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+      };
+
+      document.addEventListener('pointermove', onMove);
+    });
+  }
+
+  // Copiar el correo al portapapeles con confirmación visual y anunciada.
+  const copyButton = document.getElementById('copy-email');
+  const iconIdle = document.getElementById('copy-icon-idle');
+  const iconDone = document.getElementById('copy-icon-done');
+  const feedback = document.getElementById('copy-feedback');
+
+  copyButton?.addEventListener('click', async () => {
+    const email = copyButton.dataset.email;
+    if (!email) return;
+
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch {
+      return;
+    }
+
+    iconIdle?.setAttribute('hidden', '');
+    iconDone?.removeAttribute('hidden');
+    if (feedback) feedback.textContent = 'Correo copiado al portapapeles';
+
+    window.clearTimeout(copyButton.dataset.timeoutId ? Number(copyButton.dataset.timeoutId) : undefined);
+    const timeoutId = window.setTimeout(() => {
+      iconDone?.setAttribute('hidden', '');
+      iconIdle?.removeAttribute('hidden');
+    }, 2000);
+    copyButton.dataset.timeoutId = String(timeoutId);
+  });
+
+  // Hora local de España, en vivo.
+  const clock = document.getElementById('local-clock');
+  const timezone = clock?.dataset.timezone;
+
+  if (clock && timezone) {
+    const formatter = new Intl.DateTimeFormat('es-ES', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: timezone,
+    });
+
+    const tick = () => {
+      clock.textContent = formatter.format(new Date());
+    };
+
+    tick();
+    setInterval(tick, 30000);
+  }
+</script>

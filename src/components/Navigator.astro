@@ -1,0 +1,53 @@
+---
+import { Icon } from 'astro-icon/components';
+import { sections } from '../data/navigation.js';
+---
+
+<!--
+  Riel fijo a toda la altura de la izquierda. Colapsado muestra solo iconos;
+  al pasar el cursor (o pulsar el botón) se despliega sobre el contenido,
+  sin empujarlo ni cambiar el ancho de la página.
+-->
+<header class="pointer-events-none fixed inset-y-0 left-0 z-50 flex">
+  <nav
+    id="site-nav"
+    aria-label="Secciones del sitio"
+    class="nav-dock pointer-events-auto flex h-full flex-col items-stretch gap-1 border-r border-ink/10 bg-surface/90 py-6 backdrop-blur-md"
+  >
+    <button
+      type="button"
+      id="nav-toggle"
+      aria-label="Fijar el menú desplegado"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      class="mb-4 flex items-center px-2.5 py-2 text-ink-muted transition duration-300 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60"
+    >
+      <Icon name="lucide:panel-left" class="h-5 w-5 shrink-0" />
+      <span class="nav-label whitespace-nowrap text-xs font-semibold uppercase tracking-eyebrow">
+        Menú
+      </span>
+    </button>
+
+    {
+      sections.map((section) => (
+        <a
+          href={`#${section.id}`}
+          class="menu-link flex items-center px-2.5 py-3 text-ink-muted transition duration-300 hover:bg-ink/5 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/60 aria-[current=page]:bg-accent/10 aria-[current=page]:text-accent"
+        >
+          <Icon name={section.icon} class="h-5 w-5 shrink-0" />
+          <span class="nav-label whitespace-nowrap text-sm font-medium">{section.label}</span>
+        </a>
+      ))
+    }
+  </nav>
+</header>
+
+<script>
+  const nav = document.getElementById('site-nav');
+  const toggle = document.getElementById('nav-toggle');
+
+  toggle?.addEventListener('click', () => {
+    const expanded = nav?.classList.toggle('is-expanded') ?? false;
+    toggle.setAttribute('aria-expanded', String(expanded));
+  });
+</script>

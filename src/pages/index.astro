@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigator from '../components/Navigator.astro';
+import Home from '../components/Home.astro';
+import AboutMe from '../components/AboutMe.astro';
+import Projects from '../components/Projects.astro';
+import Contact from '../components/Contact.astro';
+import { sections } from '../data/navigation.js';
+
+const views = { home: Home, about: AboutMe, projects: Projects, contact: Contact };
+---
+
+<BaseLayout>
+  <Navigator />
+  <main>
+    {
+      sections.map(({ id }) => {
+        const View = views[id];
+        return (
+          <section id={id} class="min-h-screen w-full">
+            <View />
+          </section>
+        );
+      })
+    }
+  </main>
+</BaseLayout>
+
+<script>
+  // Scroll-spy: marca en el menú la sección que se está viendo.
+  const links = document.querySelectorAll('.menu-link');
+
+  const setActive = (id) => {
+    links.forEach((link) => {
+      const isActive = link.getAttribute('href') === `#${id}`;
+      if (isActive) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    },
+    { rootMargin: '-40% 0px -40% 0px', threshold: 0 }
+  );
+
+  document
+    .querySelectorAll('main > section[id]')
+    .forEach((section) => observer.observe(section));
+</script>

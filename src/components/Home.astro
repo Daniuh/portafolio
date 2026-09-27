@@ -1,0 +1,71 @@
+---
+import { hero } from '../data/home.js';
+
+const { eyebrow, name, roleParts, summary, photo } = hero;
+---
+
+<div
+  class="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-surface py-20 pl-16 pr-6"
+>
+  <!-- El paisaje de la foto, difuminado, como si continuara -->
+  <div
+    class="pointer-events-none absolute inset-0 scale-150 bg-cover bg-center opacity-40 blur-scene"
+    style={`background-image:url('${photo.src}')`}
+  >
+  </div>
+  <!-- Oscurecido para legibilidad -->
+  <div class="pointer-events-none absolute inset-0 bg-surface/75"></div>
+  <!-- Fundido con el resto de la página -->
+  <div
+    class="pointer-events-none absolute inset-0 bg-gradient-to-b from-surface via-transparent to-surface"
+  >
+  </div>
+  <!-- Halo cálido -->
+  <div
+    class="pointer-events-none absolute left-1/2 top-1/2 h-halo w-halo -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/10 blur-halo"
+  >
+  </div>
+
+  <div
+    class="relative z-10 mx-auto grid w-full max-w-5xl items-center gap-10 md:grid-cols-[auto_1fr] md:gap-16 md:pl-12 lg:pl-24"
+  >
+    <div class="animate-photo-in mx-auto md:mx-0">
+      <div class="group relative">
+        <div
+          class="absolute -inset-3 rounded-frame bg-gradient-to-tr from-accent/30 to-accent-soft/10 blur-xl"
+        >
+        </div>
+        <img
+          src={photo.src}
+          alt={photo.alt}
+          width={photo.width}
+          height={photo.height}
+          class="relative aspect-[4/5] w-56 rounded-photo object-cover object-top shadow-2xl ring-2 ring-accent/70 ring-offset-4 ring-offset-surface transition duration-500 group-hover:ring-accent-soft group-hover:drop-shadow-glow-accent sm:w-64 md:w-72"
+        />
+      </div>
+    </div>
+
+    <div class="text-center md:border-l-2 md:border-accent/30 md:pl-10 md:text-left">
+      <p
+        class="reveal reveal-1 mb-3 text-xs font-semibold uppercase tracking-eyebrow text-accent/80"
+      >
+        {eyebrow}
+      </p>
+      <h1
+        class="reveal reveal-2 text-4xl font-bold leading-tight text-accent sm:text-5xl md:text-6xl"
+      >
+        {name[0]}<br class="hidden sm:block" /> {name[1]}
+      </h1>
+      <h2
+        class="reveal reveal-3 mt-4 text-lg font-medium text-ink sm:text-xl md:text-2xl"
+      >
+        {roleParts[0]} <span class="text-accent/60">&amp;</span> {roleParts[1]}
+      </h2>
+      <p
+        class="reveal reveal-4 mx-auto mt-6 max-w-xl text-base leading-relaxed text-ink-subtle md:mx-0 md:text-lg"
+      >
+        {summary}
+      </p>
+    </div>
+  </div>
+</div>

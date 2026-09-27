@@ -1,0 +1,118 @@
+---
+import { Icon } from 'astro-icon/components';
+import { about } from '../data/about.js';
+import { techs, softSkills } from '../data/skills.js';
+
+// Cada marquesina repite su lista dos veces para lograr el bucle sin costura.
+const copies = [0, 1];
+
+// El stack se parte en dos cintas que se cruzan a distinta velocidad.
+const half = Math.ceil(techs.length / 2);
+const techRows = [
+  { items: techs.slice(0, half), duration: 'var(--duration-marquee-tech)', reverse: false },
+  { items: techs.slice(half), duration: 'var(--duration-marquee-tech-alt)', reverse: true },
+];
+---
+
+<div
+  class="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden border-t-2 border-accent-muted bg-surface py-20 pl-16 pr-4 text-center sm:pr-6 lg:pr-16"
+>
+  <!-- Halo cálido de fondo -->
+  <div
+    class="pointer-events-none absolute left-1/2 top-1/3 h-halo w-halo -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/5 blur-halo"
+  >
+  </div>
+
+  <div class="relative z-10 w-full max-w-2xl animate-fade-in-up px-4 sm:px-6">
+    <p class="mb-3 text-xs font-semibold uppercase tracking-eyebrow text-accent/70">
+      {about.eyebrow}
+    </p>
+    <h2
+      class="mb-6 cursor-default bg-gradient-to-r from-accent to-accent-soft bg-clip-text text-4xl font-bold text-transparent"
+    >
+      {about.heading}
+    </h2>
+    <div
+      class="relative overflow-hidden rounded-3xl border border-ink/10 bg-ink/5 p-6 backdrop-blur-sm sm:p-8"
+    >
+      <span
+        class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/60 to-transparent"
+      ></span>
+      <div class="cursor-default space-y-4 text-lg leading-relaxed text-ink-muted">
+        {about.bio.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </div>
+
+  <!-- Tecnologías: dos cintas 3D con los logos en su color de marca -->
+  <section class="relative z-10 mt-16 w-full max-w-6xl">
+    <div class="mb-8 flex items-center justify-center gap-3">
+      <span class="h-px w-10 bg-gradient-to-r from-transparent to-accent/50"></span>
+      <h3 class="text-lg font-semibold text-accent-soft sm:text-xl">{about.techHeading}</h3>
+      <span class="h-px w-10 bg-gradient-to-l from-transparent to-accent/50"></span>
+    </div>
+
+    <div class="flex flex-col gap-5">
+      {
+        techRows.map((row) => (
+          <div class="marquee marquee--stage" style={`--marquee-duration: ${row.duration}`}>
+            <div class:list={['marquee__track', row.reverse && 'marquee__track--reverse']}>
+              {copies.map((copy) => (
+                <div class="marquee__group" inert={copy === 1} aria-hidden={copy === 1 ? 'true' : null}>
+                  {row.items.map((tech, i) => (
+                    <article
+                      class="marquee__card group flex items-center gap-3.5 rounded-2xl border border-ink/10 bg-ink/5 px-6 py-4 backdrop-blur-sm"
+                      style={`--brand: ${tech.color}; --i: ${i}`}
+                    >
+                      <span class="grid shrink-0 place-items-center" style={`color: ${tech.color}`}>
+                        <Icon name={tech.icon} class="h-10 w-10" />
+                      </span>
+                      <span class="whitespace-nowrap text-[0.95rem] font-medium text-ink">
+                        {tech.name}
+                      </span>
+                    </article>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Habilidades blandas: misma cinta 3D, cada una enlaza a su definición -->
+  <section class="relative z-10 mt-16 w-full max-w-6xl">
+    <div class="mb-8 flex items-center justify-center gap-3">
+      <span class="h-px w-10 bg-gradient-to-r from-transparent to-accent/50"></span>
+      <h3 class="text-lg font-semibold text-accent-soft sm:text-xl">{about.softSkillsHeading}</h3>
+      <span class="h-px w-10 bg-gradient-to-l from-transparent to-accent/50"></span>
+    </div>
+
+    <div class="marquee marquee--stage" style="--marquee-duration: var(--duration-marquee-skills)">
+      <div class="marquee__track marquee__track--reverse">
+        {
+          copies.map((copy) => (
+            <div class="marquee__group" inert={copy === 1} aria-hidden={copy === 1 ? 'true' : null}>
+              {softSkills.map((skill, i) => (
+                <a
+                  href={skill.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="marquee__card group flex items-center gap-2.5 rounded-full border border-accent/20 bg-accent/5 px-5 py-2.5 text-sm font-medium text-ink-muted hover:text-ink"
+                  style={`--i: ${i}`}
+                >
+                  <Icon
+                    name={skill.icon}
+                    class="h-5 w-5 shrink-0 text-accent transition-transform duration-300 group-hover:scale-110"
+                  />
+                  <span class="whitespace-nowrap">{skill.label}</span>
+                </a>
+              ))}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</div>

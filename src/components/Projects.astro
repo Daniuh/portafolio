@@ -1,0 +1,199 @@
+---
+import { Icon } from 'astro-icon/components';
+import { projects } from '../data/projects.js';
+import { stackIcons } from '../data/stack.js';
+
+const heading = 'Proyectos Destacados';
+---
+
+<div class="border-t-2 border-accent-soft bg-surface py-16 pl-16 pr-6 text-ink">
+  <div class="mx-auto max-w-6xl text-center">
+    <h2 class="mb-10 text-4xl font-bold text-accent-soft">{heading}</h2>
+
+    <div class="relative">
+      <button
+        type="button"
+        id="proj-prev"
+        aria-label="Desplazar a la izquierda"
+        class="carousel-nav absolute left-0 top-1/2 z-10 hidden -translate-x-1/2 -translate-y-1/2 sm:-left-4 sm:grid"
+      >
+        <Icon name="lucide:chevron-left" class="h-5 w-5" />
+      </button>
+      <button
+        type="button"
+        id="proj-next"
+        aria-label="Desplazar a la derecha"
+        class="carousel-nav absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 translate-x-1/2 sm:-right-4 sm:grid"
+      >
+        <Icon name="lucide:chevron-right" class="h-5 w-5" />
+      </button>
+
+      <div id="proj-track" class="project-scroll text-left" tabindex="0">
+      {
+        projects.map((project, i) => (
+          <article class="project-slide tilt-card group relative flex flex-col overflow-hidden rounded-3xl border border-ink/10 bg-surface-card/60 shadow-lg backdrop-blur-sm transition-colors duration-300 hover:border-accent/30">
+            <div class="relative overflow-hidden rounded-t-3xl">
+              {project.image ? (
+                <img
+                  src={project.image}
+                  alt={project.alt}
+                  loading="lazy"
+                  class="aspect-[16/9] w-full object-cover transition duration-500 group-hover:scale-105"
+                />
+              ) : (
+                <div class="flex aspect-[16/9] w-full items-center justify-center bg-gradient-to-br from-ink/5 to-accent/5">
+                  <Icon name="lucide:code" class="h-12 w-12 text-ink/15" />
+                </div>
+              )}
+              <span class="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface-card via-transparent to-transparent" />
+              <span class="pointer-events-none absolute right-4 top-3 select-none text-4xl font-black text-ink/10">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              {project.category && (
+                <span class="absolute left-4 top-3 inline-flex items-center gap-1.5 rounded-full border border-ink/10 bg-surface/80 px-3 py-1 text-xs font-medium text-ink backdrop-blur-sm">
+                  <Icon name="lucide:briefcase" class="h-3.5 w-3.5 text-accent" />
+                  {project.category}
+                </span>
+              )}
+              {project.role.includes('·') && (
+                <span class="absolute inset-x-4 bottom-3 line-clamp-2 rounded-xl bg-surface/80 px-3 py-1.5 text-xs font-medium text-accent backdrop-blur-sm">
+                  {project.role}
+                </span>
+              )}
+            </div>
+
+            <div class="flex flex-1 flex-col gap-4 p-6">
+              <div class="flex items-start justify-between gap-3">
+                <h3 class="line-clamp-2 text-lg font-bold leading-snug text-ink transition-colors duration-300 group-hover:text-accent">
+                  {project.title}
+                </h3>
+                {!project.role.includes('·') && (
+                  <span class="shrink-0 rounded-full bg-accent/10 px-2.5 py-1 text-[0.7rem] font-medium text-accent">
+                    {project.role}
+                  </span>
+                )}
+              </div>
+
+              <p class="line-clamp-3 flex-1 text-sm leading-relaxed text-ink-muted">
+                {project.description}
+              </p>
+
+              <div class="flex flex-wrap gap-2">
+                {project.stack.map((name) => {
+                  const tech = stackIcons[name];
+                  return (
+                    tech && (
+                      <span
+                        class="flex h-7 w-7 items-center justify-center rounded-lg bg-ink/5"
+                        title={name}
+                      >
+                        <Icon name={tech.icon} class="h-4 w-4" style={`color:${tech.color}`} />
+                      </span>
+                    )
+                  );
+                })}
+              </div>
+
+              {project.demo || project.github ? (
+                <div
+                  class={`mt-1 flex items-center gap-4 border-t border-ink/10 pt-4 text-sm ${project.demo && project.github ? 'justify-between' : 'justify-center'}`}
+                >
+                  {project.demo && (
+                    <a
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1.5 font-medium text-accent transition hover:text-accent-soft"
+                    >
+                      <Icon name="lucide:arrow-up-right" class="h-4 w-4" />
+                      {project.demoLabel ?? 'Demo'}
+                    </a>
+                  )}
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1.5 font-medium text-ink-muted transition hover:text-ink"
+                    >
+                      <Icon name="simple-icons:github" class="h-4 w-4" style="color:#f5f5f5" />
+                      GitHub
+                    </a>
+                  )}
+                </div>
+              ) : (
+                <div class="mt-1 flex items-center justify-center gap-1.5 border-t border-ink/10 pt-4 text-sm text-ink-subtle">
+                  <Icon name="lucide:lock" class="h-4 w-4" />
+                  Proyecto privado
+                </div>
+              )}
+            </div>
+          </article>
+        ))
+      }
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Flechas: solo empujan el scroll nativo del track (scrollBy), nada de
+  // scrollIntoView ni de mover el foco. No pueden afectar el scroll de
+  // la página bajo ningún caso.
+  const track = document.getElementById('proj-track');
+  const prevButton = document.getElementById('proj-prev');
+  const nextButton = document.getElementById('proj-next');
+  const reduceMotionForScroll = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (track) {
+    const scrollByCard = (direction: number) => {
+      const card = track.querySelector<HTMLElement>('.project-slide');
+      const gap = parseFloat(getComputedStyle(track).columnGap || '0');
+      const amount = card ? card.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
+      track.scrollBy({ left: direction * amount, behavior: reduceMotionForScroll ? 'auto' : 'smooth' });
+    };
+
+    prevButton?.addEventListener('click', () => scrollByCard(-1));
+    nextButton?.addEventListener('click', () => scrollByCard(1));
+
+    track.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        scrollByCard(1);
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        scrollByCard(-1);
+      }
+    });
+  }
+
+  // Inclinación 3D + foco de luz que siguen el cursor. Solo con mouse real
+  // y sin prefers-reduced-motion (la CSS ya trae el respaldo estático).
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (canHover && !reduceMotion) {
+    const strength = 8;
+
+    document.querySelectorAll<HTMLElement>('.tilt-card').forEach((card) => {
+      const onMove = (event: PointerEvent) => {
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width;
+        const y = (event.clientY - rect.top) / rect.height;
+
+        card.style.setProperty('--ry', `${(x - 0.5) * strength}deg`);
+        card.style.setProperty('--rx', `${(0.5 - y) * strength}deg`);
+        card.style.setProperty('--mx', `${x * 100}%`);
+        card.style.setProperty('--my', `${y * 100}%`);
+      };
+
+      const reset = () => {
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+      };
+
+      card.addEventListener('pointermove', onMove);
+      card.addEventListener('pointerleave', reset);
+    });
+  }
+</script>
